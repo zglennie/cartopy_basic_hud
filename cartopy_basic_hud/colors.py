@@ -1,5 +1,6 @@
-from matplotlib.colors import LinearSegmentedColormap
 import re
+
+from matplotlib.colors import LinearSegmentedColormap
 
 rgb_color_hex_pattern = re.compile(r'^#[0-9a-fA-F]{6}$')
 rgba_color_hex_pattern = re.compile(r'^#[0-9a-fA-F]{8}$')

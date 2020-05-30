@@ -5,18 +5,19 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
 from cartopy_basic_hud.colors import saturation_colormap
+from cartopy_basic_hud.cli import str2bool
 from cartopy_basic_hud.constants import CAPECOD_LAT_NORTH, CAPECOD_LAT_SOUTH, CAPECOD_LON_EAST, CAPECOD_LON_WEST
 from cartopy_basic_hud.models import TelemetryPoint, TelemetryTrack
+
 
 def show_hud(lat_min, lat_max, lon_min, lon_max, tracks=None, desaturate_old_points=True):
     extent = (lon_min, lon_max, lat_min, lat_max)  # (x0, x1, y0, y1)
 
     ax = plt.axes(projection=ccrs.PlateCarree())
     ax.set_extent(extent)
-    print(ax)
     ax.coastlines()
 
-    # TODO - Consider taking the trouble to draw all the oldest points first, then the next olders, etc.,
+    # TODO - Consider taking the trouble to draw all the oldest points first, then the next oldest, etc.,
     #  so that the older points of the last track to be drawn aren't drawn over the newer points
     #  of the first track to be drawn. This seems like a more complicated task, because we can't
     #  simply do each track as its own scatter plot.
@@ -45,7 +46,8 @@ def main():
     argparser = argparse.ArgumentParser("Use Cartopy to show a telemetry HUD.")
     argparser.add_argument("--lat-bounds", type=float, nargs=2, default=[CAPECOD_LAT_SOUTH, CAPECOD_LAT_NORTH])
     argparser.add_argument("--lon-bounds", type=float, nargs=2, default=[CAPECOD_LON_WEST, CAPECOD_LON_EAST])
-    argparser.add_argument("--tracks", type=int, default=1)
+    argparser.add_argument("--tracks", type=int, default=1, help="Number of fictional tracks to plot.")
+    argparser.add_argument("--desaturate-old-points", type=str2bool, default=True, help="e.g. true, false, 1, 0.")
 
     # Parse CLI arguments.
     args = argparser.parse_args()
@@ -54,10 +56,11 @@ def main():
     lon_min = min(args.lon_bounds)
     lon_max = max(args.lon_bounds)
 
-    # Make up random track starting within the bounds.
+    # Make up random fictional track starting within the bounds.
     tracks = []
     while len(tracks) < args.tracks:
         # TODO - consider varying the start point between tracks.
+        #  Given that this is just an example, I'm not worrying about it, but it might be preferable.
         start_point = TelemetryPoint(
             timestamp=datetime.datetime(2001, 1, 1, 11, 59, 59),
             lat=(lat_min + lat_max)/2,
@@ -65,10 +68,12 @@ def main():
         )
         tracks.append(TelemetryTrack.make_wandering_track(start_point=start_point))
 
-    show_hud(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max, tracks=tracks)
+    print("args.desaturate_old_points = " + str(args.desaturate_old_points))
 
+    show_hud(lat_min=lat_min, lat_max=lat_max, lon_min=lon_min, lon_max=lon_max,
+             tracks=tracks,
+             desaturate_old_points=args.desaturate_old_points)
 
 
 if __name__ == "__main__":
     main()
-

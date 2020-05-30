@@ -1,7 +1,9 @@
 import random
 from datetime import timedelta
 
+
 class TelemetryPoint:
+
     def __init__(self, timestamp, lat, lon):
         self.timestamp = timestamp
         self.lat = lat
@@ -18,16 +20,6 @@ class TelemetryTrack:
         self.timestamps = [point.lat for point in points_chronological]
         self.lats = [point.lat for point in points_chronological]
         self.lons = [point.lon for point in points_chronological]
-
-    def earliest_timestamp(self):
-        if not self.timestamps:
-            return None
-        return self.timestamps[0]
-
-    def latest_timestamp(self):
-        if not self.timestamps:
-            return None
-        return self.timestamps[-1]
 
     @classmethod
     def make_wandering_track(cls, start_point, step_time_interval=None, step_count=100, step_scale=0.01):

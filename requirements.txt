@@ -4,6 +4,9 @@ numpy
 scipy
 shapely --no-binary shapely
 
-## Installing shapely this way did not help.
+## Installing shapely these ways did not work:
 # Install 'shapely' from a wheel, to avoid using local GEOS library.
 # https://files.pythonhosted.org/packages/20/fa/c96d3461fda99ed8e82ff0b219ac2c8384694b4e640a611a1a8390ecd415/Shapely-1.7.0-cp36-cp36m-manylinux1_x86_64.whl
+
+# Install 'shapely' with default behavior.
+# shapely

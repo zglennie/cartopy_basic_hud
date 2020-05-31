@@ -25,11 +25,11 @@ I have these versions:
 1. Create a python virtual environment. I'm using Python 3.6.9 (64-bit).
 2. Install most of the requirements:
 
-        $ pip install requirements.txt
+        $ pip install -r requirements.txt
         
 3. Install Cartopy:
 
-        $ pip install requirements_cartopy.txt
+        $ pip install -r requirements_cartopy.txt
         
    (Cartopy requires that Numpy already be installed, so installing Cartopy is a separate step.) 
   
